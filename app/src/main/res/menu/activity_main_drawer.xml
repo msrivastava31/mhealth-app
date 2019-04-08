@@ -11,6 +11,18 @@
         </menu>
     </item>
 
+    <item android:title="Cache Storage">
+        <menu>
+            <item
+                android:id="@+id/nav_cache_serializable"
+                android:title="Serializable" />
+
+            <item
+                android:id="@+id/nav_cache_annotation"
+                android:title="Annotation" />
+        </menu>
+    </item>
+
     <item android:title="Internal Storage">
         <menu>
             <item

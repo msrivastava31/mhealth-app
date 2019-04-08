@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="edu.uw.medhas.mhealthapp.MainActivity"
     tools:showIn="@layout/app_bar_main">
@@ -13,12 +13,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="140dp">
+        android:layout_marginBottom="100dp">
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Password Strength Checker"
+            android:text="Cache Storage - Annotation"
             android:textSize="26dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -32,25 +32,35 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <edu.uw.medhas.mhealthsecurityframework.password.widget.PasswordEditText
-            android:id="@+id/secure_password"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="Secure Password"
-            android:inputType="textPassword" />
-
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/cacAnoSensitiveInp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword" />
+            android:hint="Some Sensitive Data"
+            android:inputType="text" />
 
         <Button
-            android:id="@+id/createAccount"
+            android:id="@+id/cacAnoStore"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Check Password"
+            android:text="Store"
+            android:layout_marginBottom="60dp" />
+
+        <TextView
+            android:id="@+id/cacAnoSensitiveOp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="17dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/cacAnoRetrieve"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Retrieve"
             android:layout_marginBottom="60dp" />
 
     </LinearLayout>

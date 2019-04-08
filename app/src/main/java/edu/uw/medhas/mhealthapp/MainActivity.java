@@ -26,6 +26,7 @@ import edu.uw.medhas.mhealthsecurityframework.password.exception.PasswordNoNumbe
 import edu.uw.medhas.mhealthsecurityframework.password.exception.PasswordNoSpecialCharacterException;
 import edu.uw.medhas.mhealthsecurityframework.password.exception.PasswordNoUpperCaseCharacterException;
 import edu.uw.medhas.mhealthsecurityframework.password.exception.PasswordTooShortException;
+import edu.uw.medhas.mhealthsecurityframework.storage.cache.SecureCacheHandler;
 import edu.uw.medhas.mhealthsecurityframework.storage.internal.SecureInternalFileHandler;
 import edu.uw.medhas.mhealthsecurityframework.storage.external.SecureExternalFileHandler;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity
 
     private SecureInternalFileHandler mSecureInternalFileHandler = null;
     private SecureExternalFileHandler mSecureExternalFileHandler = null;
+    private SecureCacheHandler mSecureCacheHandler = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity
 
         mSecureInternalFileHandler = new SecureInternalFileHandler(getBaseContext());
         mSecureExternalFileHandler = new SecureExternalFileHandler(getBaseContext());
+        mSecureCacheHandler = new SecureCacheHandler(getBaseContext());
     }
 
     @Override
@@ -75,6 +78,10 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_password) {
             newView = inflater.inflate(R.layout.content_pwstrchecker, null);
+        } else if (id == R.id.nav_cache_serializable) {
+            newView = inflater.inflate(R.layout.content_cacsto_slz, null);
+        } else if (id == R.id.nav_cache_annotation) {
+            newView = inflater.inflate(R.layout.content_cacsto_ano, null);
         } else if (id == R.id.nav_internal_serializable) {
             newView = inflater.inflate(R.layout.content_intsto_slz, null);
         } else if (id == R.id.nav_internal_annotation) {
@@ -117,6 +124,74 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
             });
+        } else if (id == R.id.nav_cache_serializable) {
+            final EditText editTextInp = (EditText) findViewById(R.id.cacSlzSensitiveInp);
+            final Button btnStore = (Button) findViewById(R.id.cacSlzStore);
+            final TextView editTextOp = (TextView) findViewById(R.id.cacSlzSensitiveOp);
+            final Button btnRetrieve = (Button) findViewById(R.id.cacSlzRetrieve);
+
+            btnStore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        final SecureSerializableModel ssm = new SecureSerializableModel(editTextInp.getText().toString());
+                        mSecureCacheHandler.writeData(ssm, "cachestorage-serializable.txt");
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error storing file", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            btnRetrieve.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        final SecureSerializableModel ssm = mSecureCacheHandler.readData(SecureSerializableModel.class,
+                                "cachestorage-serializable.txt");
+                        editTextOp.setText(ssm.getData());
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error retrieving file", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+        } else if (id == R.id.nav_cache_annotation) {
+
+            final EditText editTextInp = (EditText) findViewById(R.id.cacAnoSensitiveInp);
+            final Button btnStore = (Button) findViewById(R.id.cacAnoStore);
+            final TextView editTextOp = (TextView) findViewById(R.id.cacAnoSensitiveOp);
+            final Button btnRetrieve = (Button) findViewById(R.id.cacAnoRetrieve);
+
+            btnStore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        final SecureAnnotatedModel ssm = new SecureAnnotatedModel();
+                        ssm.setData(editTextInp.getText().toString());
+                        mSecureCacheHandler.writeData(ssm, "cachestorage-annotation.txt");
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error storing file", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            btnRetrieve.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        final SecureAnnotatedModel ssm = mSecureCacheHandler.readData(SecureAnnotatedModel.class,
+                                "cachestorage-annotation.txt");
+                        editTextOp.setText(ssm.getData());
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error retrieving file", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                }
+            });
+
         } else if (id == R.id.nav_internal_serializable) {
             final EditText editTextInp = (EditText) findViewById(R.id.intSlzSensitiveInp);
             final Button btnStore = (Button) findViewById(R.id.intSlzStore);
